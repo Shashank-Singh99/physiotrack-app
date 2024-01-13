@@ -15,17 +15,17 @@ export default function EditScreenInfo({ path }: { path: string }) {
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
-          Open up the code for this screen:
+          This is a staging version of the application and does not represent the final quality. This is to be used for demo purposes only. For any support please reach out to support@techgym.in
         </Text>
 
-        <View
+        {/* <View
           style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
           darkColor="rgba(255,255,255,0.05)"
           lightColor="rgba(0,0,0,0.05)">
           <MonoText>{path}</MonoText>
-        </View>
+        </View> */}
 
-        <Text
+        {/* <Text
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
@@ -40,7 +40,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
           <Text style={styles.helpLinkText} lightColor={Colors.light.tint}>
             Tap here if your app doesn't automatically update after making changes
           </Text>
-        </ExternalLink>
+        </ExternalLink> */}
       </View>
     </View>
   );
