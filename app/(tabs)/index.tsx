@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
+  ActivityIndicator,
   ImageBackground,
   Pressable,
   StyleSheet,
@@ -21,6 +22,7 @@ const PlaceholderImage = require('../../assets/images/pose-image.png');
 export default function TabOneScreen() {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [showImageUploadSpinner, setShowImageUploadSpinner] = useState(false);
 
   const [globalHeight, setGlobalHeight] = useState<number>(null);
 
@@ -78,17 +80,22 @@ export default function TabOneScreen() {
     uploadTask.on(
       "state_changed",
       null,
-      (error) => console.log(error),
+      (error) => {
+        setShowImageUploadSpinner(false);
+        console.log(error);
+      },
       async () => {
         const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
         console.log("Download url is : ", downloadUrl);
         setImgSrc(downloadUrl);
         setUploading(true);
+        setShowImageUploadSpinner(false);
       }
     );
   };
 
   const uploadImage = async () => {
+    setShowImageUploadSpinner(true);
     const blob: Blob | Uint8Array | ArrayBuffer = await new Promise(
       (resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -126,6 +133,7 @@ export default function TabOneScreen() {
             source={{ uri: image }}
             style={{ width, height: globalHeight }}
           >
+            { showImageUploadSpinner && <ActivityIndicator size="large" style={styles.spinner} color="cyan" />}
             <TouchableOpacity style={styles.floatingButtonCameraRetake} onPress={retakeImage}>
               <MaterialCommunityIcons
                 name="camera-retake"
@@ -137,7 +145,6 @@ export default function TabOneScreen() {
             <MaterialCommunityIcons name="check-circle" size={60} color="#d500f9" />
             </TouchableOpacity>
           </ImageBackground>
-          {/* <Image source={{ uri: image }} style={{ width: globalWidth, height: globalHeight }} /> */}
         </View>
       )}
     </View>
@@ -183,4 +190,7 @@ const styles = StyleSheet.create({
     flex: 1 / 3,
     alignItems: 'center',
   },
+  spinner: {
+    flex: 1
+  }
 });
